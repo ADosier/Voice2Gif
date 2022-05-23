@@ -60,10 +60,10 @@ if __name__ == '__main__':
             clean_text = process_text(text)
 
             if clean_text != "":
-                print("Alec said \"", text, "\"")
+                print("User said \"", text, "\"")
                 print("clean text: ", clean_text)
                 if text == "exit":
                     break
-                #ttg.DisplayGif(text)
+                ttg.DisplayGif(text)
 
     exit(0)

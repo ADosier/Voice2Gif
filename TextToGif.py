@@ -8,31 +8,20 @@ from selenium.webdriver.chrome.options import Options
 from giphy_client.rest import ApiException
 
 #read .config file and add ignore the config for github
-gKey = ""
+info = []
+with open("info.config", 'r', encoding='utf-8') as f:
+    info = f.read().splitlines()
+
+gKey = info[0] # this is my API key. sorry, you can't have it.
 gInstance = giphy_client.DefaultApi()
 
 chrome_options = Options()
-chrome_options.add_argument("--kiosk") #kiosk relenquishes control
+chrome_options.add_argument("--kiosk") #this is the full screen command for chrome
 
+# There is a delay on startup for the voice recognition to function
+# This is just a filler gif until it starts recognizing speech
 startup ="https://giphy.com/embed/KlrMS4vyq5KSY"
 
-
-"""
-while(query != "exit"):
-
-    try:
-        gResponse = gInstance.gifs_search_get(gKey, query, limit = 1)
-        gifData = gResponse.data[0]
-
-        urlretrieve(gifData.images.original.url, 'test.gif')
-        print("Here is your gif ")
-        #print(gifData.embed_url)
-        webbrowser.open(gifData.embed_url, new=0, autoraise=True)
-        query = input("what gif do you want: ")
-    except ApiException as e:
-        print("problem encounterd")
-        query = "exit"
-"""
 class TextToGif:
     def __init__(self):
         self.query = ""
@@ -51,9 +40,5 @@ class TextToGif:
                 gResponse = gInstance.gifs_search_get(gKey, self.query, limit=1)
                 gifData = gResponse.data[0]
                 self.driver.get(gifData.embed_url)
-                #urlretrieve(gifData.images.original.url, 'test.gif')
-                # print("Here is your gif ")
-                # print(gifData.embed_url)
-                #webbrowser.open(gifData.embed_url, new=0, autoraise=True)
             except ApiException as e:
                 print("Giphy exception found")
