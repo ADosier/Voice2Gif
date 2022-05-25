@@ -8,7 +8,7 @@ from nltk import word_tokenize
 from nltk.corpus import stopwords
 import re
 
-MAX_QUERY = 2 # number of words to cram into the gif search bar
+MAX_QUERY = 3 # number of words to cram into the gif search bar
 
 def process_text(text):
     # PREPROCESSING STEP => remove punctuation and whitespace
@@ -35,7 +35,7 @@ def process_text(text):
 if __name__ == '__main__':
     # fetch model path for deep speech to work its magic
     modelPath = os.path.abspath(os.getcwd())
-    modelPath += "\\us-small"
+    modelPath += "\\us-large"
 
     # start screen display immediately just in case the setup takes too long
     ttg = TextToGif()
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     print("Recording activated")
     while True:
-        data = stream.read(4096)
+        data = stream.read(4096, exception_on_overflow=False)
         if len(data) == 0:
             continue
 
@@ -64,6 +64,6 @@ if __name__ == '__main__':
                 print("clean text: ", clean_text)
                 if text == "exit":
                     break
-                ttg.DisplayGif(text)
+                ttg.DisplayGif(clean_text)
 
     exit(0)
